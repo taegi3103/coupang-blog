@@ -1,0 +1,14 @@
+[
+  {
+    "id": "sample-001",
+    "title": "2026년 공기청정기 추천 TOP5 - 쿠팡 인기 모델 총정리",
+    "summary": "미세먼지와 황사가 기승을 부리는 요즘, 공기청정기는 선택이 아닌 필수입니다. 쿠팡에서 가장 많이 팔린 인기 모델 5가지를 직접 비교해봤습니다.",
+    "date": "2026.02.28",
+    "image": "",
+    "tags": ["가전", "공기청정기"],
+    "coupang_links": [
+      { "label": "최저가 구경하러 가기", "url": "https://link.coupang.com/a/XXXXX" }
+    ],
+    "url": "posts/sample-001.html"
+  }
+]
