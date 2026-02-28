@@ -4,239 +4,145 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{TITLE}} | 쿠팡픽</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --red: #e53935;
-      --red-dark: #b71c1c;
-      --orange: #ff6f00;
-      --yellow: #ffd600;
-      --bg: #f5f5f5;
-      --white: #ffffff;
-      --gray: #9e9e9e;
-      --dark: #1a1a1a;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--dark); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Noto Sans KR',sans-serif; background:#f9f9f9; color:#111; }
 
-    header {
-      background: var(--red);
-      padding: 0 24px;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 2px 8px rgba(229,57,53,0.3);
-    }
-    .header-inner {
-      max-width: 800px; margin: 0 auto;
-      display: flex; align-items: center; height: 60px;
-    }
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem; color: white; letter-spacing: 2px; text-decoration: none;
-    }
-    .logo span { color: var(--yellow); }
+    header { background:#fff; border-bottom:1px solid #eee; padding:0 20px; position:sticky; top:0; z-index:99; }
+    .hd { max-width:720px; margin:0 auto; display:flex; align-items:center; height:60px; }
+    .logo { font-size:1.5rem; font-weight:900; color:#e53935; text-decoration:none; }
+    .logo-sub { font-size:0.72rem; color:#aaa; font-weight:400; margin-left:8px; }
 
-    .post-wrap {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 32px 24px 60px;
-    }
+    .wrap { max-width:720px; margin:0 auto; padding:32px 20px 60px; }
 
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      color: var(--gray); text-decoration: none; font-size: 0.85rem;
-      margin-bottom: 24px; transition: color 0.2s;
-    }
-    .back-btn:hover { color: var(--red); }
+    .back { display:inline-flex; align-items:center; gap:5px; color:#aaa; text-decoration:none; font-size:0.82rem; margin-bottom:24px; }
+    .back:hover { color:#e53935; }
 
-    .post-header {
-      background: var(--white);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      margin-bottom: 24px;
-    }
-    .post-hero-img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      display: block;
-    }
-    .post-header-content { padding: 28px 32px; }
-    .post-tags {
-      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;
-    }
-    .tag {
-      font-size: 0.72rem; font-weight: 700;
-      padding: 3px 10px; border-radius: 10px;
-      background: #fce4ec; color: var(--red);
-    }
-    .post-title {
-      font-size: 1.7rem; font-weight: 900;
-      line-height: 1.4; margin-bottom: 10px;
-    }
-    .post-meta {
-      font-size: 0.82rem; color: var(--gray);
-    }
+    /* 글 헤더 */
+    .post-head { margin-bottom:24px; }
+    .post-tags { display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+    .tag { font-size:0.7rem; font-weight:600; padding:3px 10px; border-radius:20px; background:#fef2f2; color:#e53935; }
+    .post-title { font-size:1.7rem; font-weight:900; line-height:1.4; margin-bottom:10px; }
+    .post-date { font-size:0.78rem; color:#aaa; }
 
-    /* 쿠팡 바로가기 버튼 */
-    .coupang-box {
-      background: linear-gradient(135deg, #fff3e0, #fff8e1);
-      border: 2px solid #ffcc02;
-      border-radius: 14px;
-      padding: 20px 24px;
-      margin: 28px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+    /* 대표 이미지 */
+    .post-img { width:100%; border-radius:12px; margin-bottom:24px; display:block; }
+
+    /* 쿠팡 버튼 박스 */
+    .cp-box {
+      background:#fff; border:2px solid #ffcc00;
+      border-radius:12px; padding:18px 20px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      margin:28px 0;
     }
-    .coupang-box-text strong {
-      display: block; font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+    .cp-box-text strong { display:block; font-size:0.95rem; font-weight:700; margin-bottom:3px; }
+    .cp-box-text span { font-size:0.78rem; color:#888; }
+    .cp-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      background:#e53935; color:#fff; text-decoration:none;
+      padding:11px 20px; border-radius:8px; font-weight:700; font-size:0.88rem;
+      white-space:nowrap; flex-shrink:0;
+      transition:background 0.2s;
     }
-    .coupang-box-text span {
-      font-size: 0.82rem; color: #795548;
-    }
-    .coupang-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--red); color: white;
-      text-decoration: none; padding: 12px 22px;
-      border-radius: 8px; font-weight: 700; font-size: 0.9rem;
-      white-space: nowrap;
-      transition: background 0.2s, transform 0.1s;
-      flex-shrink: 0;
-    }
-    .coupang-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
+    .cp-btn:hover { background:#b71c1c; }
 
     /* 본문 */
     .post-body {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      line-height: 1.9;
-      font-size: 1rem;
-      color: #333;
+      background:#fff; border-radius:12px; padding:32px;
+      line-height:1.95; font-size:0.97rem; color:#333;
     }
     .post-body h2 {
-      font-size: 1.3rem; font-weight: 900;
-      margin: 32px 0 14px;
-      padding-left: 14px;
-      border-left: 4px solid var(--red);
-      line-height: 1.4;
+      font-size:1.2rem; font-weight:900;
+      margin:32px 0 12px;
+      padding-left:12px; border-left:3px solid #e53935;
     }
-    .post-body h3 {
-      font-size: 1.1rem; font-weight: 700;
-      margin: 24px 0 10px; color: #444;
-    }
-    .post-body p { margin-bottom: 16px; }
-    .post-body table {
-      width: 100%; border-collapse: collapse;
-      margin: 20px 0; font-size: 0.9rem;
-    }
-    .post-body th {
-      background: var(--red); color: white;
-      padding: 10px 14px; text-align: left;
-    }
-    .post-body td {
-      padding: 10px 14px;
-      border-bottom: 1px solid #eee;
-    }
-    .post-body tr:nth-child(even) td { background: #fafafa; }
-    .post-body strong { color: var(--red-dark); }
+    .post-body h3 { font-size:1rem; font-weight:700; margin:22px 0 8px; color:#333; }
+    .post-body p { margin-bottom:16px; }
+    .post-body strong { color:#c62828; }
+    .post-body table { width:100%; border-collapse:collapse; margin:20px 0; font-size:0.88rem; }
+    .post-body th { background:#e53935; color:#fff; padding:10px 12px; text-align:left; }
+    .post-body td { padding:10px 12px; border-bottom:1px solid #f0f0f0; }
+    .post-body tr:nth-child(even) td { background:#fafafa; }
+    .post-body ul { padding-left:20px; margin-bottom:16px; }
+    .post-body li { margin-bottom:6px; }
 
-    .disclaimer {
-      background: #fff8e1; border: 1px solid #ffe082;
-      border-radius: 8px; padding: 12px 16px;
-      font-size: 0.78rem; color: #795548;
-      margin-top: 28px; text-align: center;
-    }
+    .notice { font-size:0.75rem; color:#bbb; text-align:center; margin-top:28px; line-height:1.8; }
 
-    footer {
-      background: var(--dark); color: rgba(255,255,255,0.6);
-      text-align: center; padding: 28px 24px;
-      font-size: 0.8rem; margin-top: 40px;
-    }
-    footer strong { color: white; }
+    footer { background:#111; color:#666; text-align:center; padding:24px; font-size:0.78rem; margin-top:40px; }
+    footer strong { color:#fff; }
 
-    @media (max-width: 600px) {
-      .coupang-box { flex-direction: column; text-align: center; }
-      .post-title { font-size: 1.3rem; }
-      .post-body { padding: 20px; }
-      .post-header-content { padding: 20px; }
+    @media(max-width:560px){
+      .cp-box { flex-direction:column; text-align:center; }
+      .post-title { font-size:1.3rem; }
+      .post-body { padding:20px; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <a href="../index.html" class="logo">쿠팡<span>픽</span></a>
+  <div class="hd">
+    <a href="../index.html" class="logo">쿠팡픽<span class="logo-sub">솔직한 상품 리뷰</span></a>
   </div>
 </header>
 
-<div class="post-wrap">
-  <a href="../index.html" class="back-btn">← 목록으로 돌아가기</a>
+<div class="wrap">
+  <a href="../index.html" class="back">← 목록으로</a>
 
-  <div class="post-header">
-    {{HERO_IMAGE}}
-    <div class="post-header-content">
-      <div class="post-tags">{{TAGS}}</div>
-      <h1 class="post-title">{{TITLE}}</h1>
-      <div class="post-meta">{{DATE}}</div>
-    </div>
+  <div class="post-head">
+    <div class="post-tags">{{TAGS}}</div>
+    <h1 class="post-title">{{TITLE}}</h1>
+    <div class="post-date">{{DATE}}</div>
   </div>
 
-  <!-- 쿠팡 바로가기 버튼 1 -->
-  <div class="coupang-box">
-    <div class="coupang-box-text">
+  {{HERO_IMAGE}}
+
+  <!-- 쿠팡 버튼 1 - 상단 -->
+  <div class="cp-box">
+    <div class="cp-box-text">
       <strong>🛒 지금 바로 최저가 확인!</strong>
-      <span>쿠팡에서 할인가로 구매하세요</span>
+      <span>쿠팡 로켓배송으로 빠르게 받아보세요</span>
     </div>
-    <a href="{{COUPANG_URL_1}}" target="_blank" rel="noopener" class="coupang-btn">
-      최저가 보러가기 →
-    </a>
+    <a href="{{COUPANG_URL_1}}" target="_blank" rel="noopener" class="cp-btn">최저가 보기 →</a>
   </div>
 
   <div class="post-body">
-    {{CONTENT}}
+    {{CONTENT_1}}
 
-    <!-- 쿠팡 바로가기 버튼 2 (본문 중간) -->
-    <div style="margin:32px 0;">
-      <div class="coupang-box">
-        <div class="coupang-box-text">
-          <strong>💡 지금 구매하면 더 저렴해요!</strong>
-          <span>로켓배송으로 빠르게 받아보세요</span>
+    <!-- 쿠팡 버튼 2 - 본문 중간 -->
+    <div style="margin:32px -32px; padding:0 32px;">
+      <div class="cp-box">
+        <div class="cp-box-text">
+          <strong>💡 할인 특가로 구매하기</strong>
+          <span>오늘 가격이 가장 저렴할 수 있어요</span>
         </div>
-        <a href="{{COUPANG_URL_2}}" target="_blank" rel="noopener" class="coupang-btn">
-          쿠팡에서 구매 →
-        </a>
+        <a href="{{COUPANG_URL_2}}" target="_blank" rel="noopener" class="cp-btn">쿠팡 바로가기 →</a>
       </div>
     </div>
 
     {{CONTENT_2}}
 
-  </div>
-
-  <!-- 쿠팡 바로가기 버튼 3 (하단) -->
-  <div class="coupang-box" style="margin-top:28px;">
-    <div class="coupang-box-text">
-      <strong>🎁 지금 구매시 특가 적용!</strong>
-      <span>오늘만 이 가격, 놓치지 마세요</span>
+    <!-- 쿠팡 버튼 3 - 본문 하단 -->
+    <div style="margin:32px -32px 0; padding:0 32px;">
+      <div class="cp-box">
+        <div class="cp-box-text">
+          <strong>🎁 지금 구매하면 더 저렴해요!</strong>
+          <span>재고가 한정되어 있을 수 있습니다</span>
+        </div>
+        <a href="{{COUPANG_URL_3}}" target="_blank" rel="noopener" class="cp-btn">특가로 구매 →</a>
+      </div>
     </div>
-    <a href="{{COUPANG_URL_3}}" target="_blank" rel="noopener" class="coupang-btn">
-      특가로 구매하기 →
-    </a>
   </div>
 
-  <div class="disclaimer">
-    ⚠️ 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+  <div class="notice">
+    이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.<br>
+    구매자에게 추가 비용이 발생하지 않습니다.
   </div>
 </div>
 
 <footer>
-  <strong>쿠팡픽</strong> · 진짜 써본 사람들의 솔직한 리뷰<br>
-  <span style="margin-top:6px;display:block;">© 2026 쿠팡픽. 쿠팡 파트너스 제휴 블로그.</span>
+  <strong>쿠팡픽</strong> &nbsp;·&nbsp; 쿠팡 파트너스 제휴 블로그 &nbsp;·&nbsp; © 2026
 </footer>
 
 </body>
