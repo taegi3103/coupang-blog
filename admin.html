@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쿠팡픽 관리자</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Noto Sans KR',sans-serif;background:#f5f5f5;color:#1a1a1a}
+    header{background:#1a1a1a;padding:0 24px}
+    .hd{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+    .logo{font-size:1.2rem;font-weight:900;color:#fff;text-decoration:none}
+    .logo span{color:#e53935}
+    .hd-link{color:#aaa;font-size:0.82rem;text-decoration:none}
+    .hd-link:hover{color:#fff}
+
+    .wrap{max-width:900px;margin:0 auto;padding:32px 24px 60px}
+    .page-title{font-size:1.4rem;font-weight:900;margin-bottom:8px}
+    .page-sub{font-size:0.85rem;color:#888;margin-bottom:28px}
+
+    /* 설정 박스 */
+    .config-box{background:#fff;border-radius:12px;padding:24px;margin-bottom:28px;box-shadow:0 1px 8px rgba(0,0,0,0.06)}
+    .config-title{font-size:0.85rem;font-weight:700;margin-bottom:14px;color:#555}
+    .input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    .input-group{display:flex;flex-direction:column;gap:6px}
+    .input-group label{font-size:0.75rem;color:#888;font-weight:600}
+    .input-group input{border:1px solid #e0e0e0;border-radius:8px;padding:10px 12px;font-size:0.88rem;font-family:inherit;outline:none}
+    .input-group input:focus{border-color:#e53935}
+    .btn{padding:10px 20px;border-radius:8px;border:none;font-family:inherit;font-size:0.88rem;font-weight:700;cursor:pointer;transition:background 0.2s}
+    .btn-primary{background:#e53935;color:#fff}
+    .btn-primary:hover{background:#b71c1c}
+    .btn-secondary{background:#f5f5f5;color:#555}
+    .btn-secondary:hover{background:#e0e0e0}
+    .btn-danger{background:#ff5252;color:#fff}
+    .btn-danger:hover{background:#c62828}
+    .btn-sm{padding:6px 14px;font-size:0.78rem}
+
+    /* 포스트 목록 */
+    .posts-box{background:#fff;border-radius:12px;padding:24px;box-shadow:0 1px 8px rgba(0,0,0,0.06)}
+    .posts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .posts-count{font-size:0.82rem;color:#888}
+
+    .post-row{border:1px solid #f0f0f0;border-radius:10px;padding:16px;margin-bottom:12px}
+    .post-row-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .post-row-info{flex:1}
+    .post-row-date{font-size:0.72rem;color:#bbb;margin-bottom:4px}
+    .post-row-title{font-size:0.95rem;font-weight:700;margin-bottom:6px}
+    .post-row-url{font-size:0.75rem;color:#aaa;word-break:break-all}
+    .post-row-actions{display:flex;gap:8px;flex-shrink:0}
+
+    /* 쿠팡 URL 편집 */
+    .cp-edit{margin-top:14px;padding-top:14px;border-top:1px solid #f5f5f5;display:none}
+    .cp-edit.open{display:block}
+    .cp-edit-title{font-size:0.78rem;font-weight:700;color:#e53935;margin-bottom:10px}
+    .cp-url-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+    .cp-url-row label{font-size:0.75rem;color:#888;font-weight:600;white-space:nowrap;width:60px}
+    .cp-url-row input{flex:1;border:1px solid #e0e0e0;border-radius:6px;padding:8px 10px;font-size:0.82rem;font-family:inherit;outline:none}
+    .cp-url-row input:focus{border-color:#e53935}
+
+    .status{padding:10px 16px;border-radius:8px;font-size:0.82rem;margin-bottom:16px;display:none}
+    .status.success{background:#e8f5e9;color:#2e7d32;display:block}
+    .status.error{background:#ffebee;color:#c62828;display:block}
+    .status.loading{background:#e3f2fd;color:#1565c0;display:block}
+
+    .empty{text-align:center;padding:40px;color:#ccc;font-size:0.88rem}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <a href="index.html" class="logo">쿠팡<span>픽</span> 관리자</a>
+    <a href="index.html" class="hd-link">← 블로그로 돌아가기</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="page-title">포스트 관리</div>
+  <div class="page-sub">글 삭제, 쿠팡 URL 수정을 여기서 할 수 있어요.</div>
+
+  <div class="config-box">
+    <div class="config-title">⚙️ GitHub 설정 (처음 한 번만 입력)</div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>GitHub Token (repo 권한 필요)</label>
+        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx">
+      </div>
+      <div class="input-group">
+        <label>저장소 (owner/repo)</label>
+        <input type="text" id="ghRepo" value="taegi3103/coupang-blog">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="loadPosts()">불러오기</button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <div class="posts-box">
+    <div class="posts-header">
+      <div style="font-size:0.9rem;font-weight:700">포스트 목록</div>
+      <div class="posts-count" id="postsCount"></div>
+    </div>
+    <div id="postsList"><div class="empty">위에서 설정 후 불러오기를 클릭하세요.</div></div>
+  </div>
+</div>
+
+<script>
+let postsData = [];
+let postsSha = '';
+
+function getConfig() {
+  return {
+    token: document.getElementById('ghToken').value.trim(),
+    repo: document.getElementById('ghRepo').value.trim()
+  };
+}
+
+function showStatus(msg, type) {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status ' + type;
+  if (type === 'success') setTimeout(() => el.className = 'status', 3000);
+}
+
+async function apiRequest(path, method, body) {
+  const { token, repo } = getConfig();
+  const res = await fetch(`https://api.github.com/repos/${repo}/${path}`, {
+    method: method || 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  return res.json();
+}
+
+async function loadPosts() {
+  const { token } = getConfig();
+  if (!token) { showStatus('GitHub Token을 입력해주세요.', 'error'); return; }
+  showStatus('불러오는 중...', 'loading');
+  try {
+    const data = await apiRequest('contents/posts.json');
+    postsSha = data.sha;
+    postsData = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    renderPosts();
+    showStatus(`${postsData.length}개 포스트 불러옴`, 'success');
+  } catch(e) {
+    showStatus('불러오기 실패: ' + e.message, 'error');
+  }
+}
+
+function renderPosts() {
+  document.getElementById('postsCount').textContent = `총 ${postsData.length}개`;
+  const list = document.getElementById('postsList');
+  if (!postsData.length) { list.innerHTML = '<div class="empty">포스트가 없습니다.</div>'; return; }
+  list.innerHTML = postsData.map((p, i) => `
+    <div class="post-row" id="row-${i}">
+      <div class="post-row-top">
+        <div class="post-row-info">
+          <div class="post-row-date">${p.date || ''}</div>
+          <div class="post-row-title">${p.title || '(제목 없음)'}</div>
+          <div class="post-row-url">${p.url || ''}</div>
+        </div>
+        <div class="post-row-actions">
+          <button class="btn btn-secondary btn-sm" onclick="toggleEdit(${i})">쿠팡 URL 수정</button>
+          <button class="btn btn-danger btn-sm" onclick="deletePost(${i})">삭제</button>
+        </div>
+      </div>
+      <div class="cp-edit" id="edit-${i}">
+        <div class="cp-edit-title">🛒 쿠팡 파트너스 URL 입력</div>
+        <div class="cp-url-row">
+          <label>URL 1</label>
+          <input type="text" id="url1-${i}" placeholder="https://link.coupang.com/a/xxxxx" value="${(p.coupang_urls && p.coupang_urls[0]) || ''}">
+        </div>
+        <div class="cp-url-row">
+          <label>URL 2</label>
+          <input type="text" id="url2-${i}" placeholder="https://link.coupang.com/a/xxxxx" value="${(p.coupang_urls && p.coupang_urls[1]) || ''}">
+        </div>
+        <div class="cp-url-row">
+          <label>URL 3</label>
+          <input type="text" id="url3-${i}" placeholder="https://link.coupang.com/a/xxxxx" value="${(p.coupang_urls && p.coupang_urls[2]) || ''}">
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" onclick="saveCoupangUrls(${i})">저장</button>
+          <button class="btn btn-secondary btn-sm" onclick="toggleEdit(${i})">취소</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleEdit(i) {
+  const el = document.getElementById('edit-' + i);
+  el.classList.toggle('open');
+}
+
+async function deletePost(i) {
+  if (!confirm('이 포스트를 삭제할까요?')) return;
+  const { repo } = getConfig();
+  showStatus('삭제 중...', 'loading');
+  try {
+    const post = postsData[i];
+    // 1. HTML 파일 삭제
+    try {
+      const fileData = await apiRequest('contents/' + post.url);
+      await apiRequest('contents/' + post.url, 'DELETE', {
+        message: 'Delete post: ' + post.title,
+        sha: fileData.sha
+      });
+    } catch(e) {}
+
+    // 2. posts.json 업데이트
+    postsData.splice(i, 1);
+    await updatePostsJson();
+    renderPosts();
+    showStatus('삭제 완료!', 'success');
+  } catch(e) {
+    showStatus('삭제 실패: ' + e.message, 'error');
+  }
+}
+
+async function saveCoupangUrls(i) {
+  const url1 = document.getElementById('url1-' + i).value.trim();
+  const url2 = document.getElementById('url2-' + i).value.trim();
+  const url3 = document.getElementById('url3-' + i).value.trim();
+  const post = postsData[i];
+
+  showStatus('HTML 파일 수정 중...', 'loading');
+  try {
+    // HTML 파일 가져오기
+    const fileData = await apiRequest('contents/' + post.url);
+    let html = atob(fileData.content.replace(/\n/g, ''));
+
+    // URL 교체
+    html = html.replace(/href="쿠팡URL1입력"/g, `href="${url1 || '#'}"`);
+    html = html.replace(/href="쿠팡URL2입력"/g, `href="${url2 || '#'}"`);
+    html = html.replace(/href="쿠팡URL3입력"/g, `href="${url3 || '#'}"`);
+
+    // 기존에 이미 링크가 있다면 패턴 매칭으로 교체
+    const btns = html.match(/class="cp-btn"[^>]*href="([^"]+)"/g);
+
+    // base64로 인코딩
+    const newContent = btoa(unescape(encodeURIComponent(html)));
+
+    await apiRequest('contents/' + post.url, 'PUT', {
+      message: 'Update coupang URLs: ' + post.title,
+      content: newContent,
+      sha: fileData.sha
+    });
+
+    // posts.json에도 저장
+    postsData[i].coupang_urls = [url1, url2, url3];
+    await updatePostsJson();
+
+    toggleEdit(i);
+    showStatus('쿠팡 URL 저장 완료!', 'success');
+  } catch(e) {
+    showStatus('저장 실패: ' + e.message, 'error');
+  }
+}
+
+async function updatePostsJson() {
+  // 최신 SHA 가져오기
+  const latest = await apiRequest('contents/posts.json');
+  const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(postsData, null, 2))));
+  await apiRequest('contents/posts.json', 'PUT', {
+    message: 'Update posts.json',
+    content: newContent,
+    sha: latest.sha
+  });
+  postsSha = latest.sha;
+}
+</script>
+</body>
+</html>
