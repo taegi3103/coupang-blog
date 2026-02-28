@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쿠팡픽 - 쿠팡 상품 리뷰</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Noto Sans KR',sans-serif;background:#fff;color:#1a1a1a}
+
+    /* 헤더 */
+    header{background:#fff;border-bottom:1px solid #e8e8e8;padding:0 24px}
+    .hd{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-size:1.4rem;font-weight:900;color:#e53935;text-decoration:none;letter-spacing:-0.5px}
+    .logo-desc{font-size:0.72rem;color:#aaa;margin-left:6px;font-weight:400}
+    .post-count{font-size:0.78rem;color:#aaa}
+
+    /* 히어로 */
+    .hero{background:linear-gradient(160deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:56px 24px 48px;text-align:center}
+    .hero-inner{max-width:700px;margin:0 auto}
+    .hero-badge{display:inline-block;background:#e53935;color:#fff;font-size:0.72rem;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:18px;letter-spacing:0.5px}
+    .hero h1{font-size:2.2rem;font-weight:900;color:#fff;line-height:1.35;margin-bottom:12px}
+    .hero h1 em{color:#ffd600;font-style:normal}
+    .hero p{font-size:0.92rem;color:rgba(255,255,255,0.65);line-height:1.8}
+
+    /* 메인 */
+    .main{max-width:900px;margin:0 auto;padding:40px 24px 80px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:start}
+
+    /* 포스트 목록 */
+    .post-list{}
+    .section-label{font-size:0.75rem;font-weight:700;color:#e53935;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #f0f0f0}
+
+    .post-card{display:block;text-decoration:none;color:inherit;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid #f0f0f0}
+    .post-card:last-child{border-bottom:none}
+    .post-card:hover .post-card-title{color:#e53935}
+
+    .post-card-inner{display:grid;grid-template-columns:1fr 200px;gap:20px;align-items:center}
+    .post-card-body{}
+    .post-card-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .post-card-date{font-size:0.72rem;color:#aaa}
+    .post-card-tag{font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:4px;background:#fef2f2;color:#e53935}
+    .post-card-title{font-size:1.05rem;font-weight:700;line-height:1.5;margin-bottom:8px;transition:color 0.2s;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .post-card-summary{font-size:0.84rem;color:#666;line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .post-card-img{width:200px;height:130px;object-fit:cover;border-radius:8px;background:#f5f5f5}
+    .post-card-img-ph{width:200px;height:130px;border-radius:8px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+
+    /* 사이드바 */
+    .sidebar{}
+    .sidebar-box{background:#fafafa;border-radius:12px;padding:20px;margin-bottom:20px}
+    .sidebar-title{font-size:0.78rem;font-weight:700;color:#1a1a1a;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #eee}
+
+    /* 쿠팡 바로가기 사이드 박스 */
+    .cp-side-btn{display:block;background:#e53935;color:#fff;text-align:center;text-decoration:none;padding:12px;border-radius:8px;font-weight:700;font-size:0.88rem;margin-top:12px;transition:background 0.2s}
+    .cp-side-btn:hover{background:#b71c1c}
+
+    /* 빈 상태 */
+    .empty{padding:60px 20px;text-align:center;color:#ccc;font-size:0.88rem}
+
+    /* 고지사항 */
+    .notice{font-size:0.72rem;color:#bbb;text-align:center;padding:0 24px 32px;line-height:1.9;max-width:900px;margin:0 auto}
+
+    footer{background:#1a1a1a;color:#555;text-align:center;padding:28px 24px;font-size:0.78rem}
+    footer strong{color:#fff}
+
+    @media(max-width:768px){
+      .main{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .post-card-inner{grid-template-columns:1fr}
+      .post-card-img,.post-card-img-ph{width:100%;height:180px}
+      .hero h1{font-size:1.6rem}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <a href="/" class="logo">쿠팡픽<span class="logo-desc">쿠팡 파트너스 리뷰 블로그</span></a>
+    <span class="post-count" id="postCount"></span>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">쿠팡 파트너스</div>
+    <h1>직접 써보고 고른<br><em>진짜 추천 상품</em></h1>
+    <p>광고 없이 솔직하게. 쿠팡 최저가 링크와 함께 리뷰를 제공합니다.</p>
+  </div>
+</div>
+
+<div class="main">
+  <div class="post-list">
+    <div class="section-label">최신 리뷰</div>
+    <div id="postList"><div class="empty">리뷰를 불러오는 중...</div></div>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-box">
+      <div class="sidebar-title">🛒 쿠팡 바로가기</div>
+      <p style="font-size:0.82rem;color:#666;line-height:1.7">최신 할인 상품과 인기 상품을 쿠팡에서 바로 확인해보세요.</p>
+      <a href="https://www.coupang.com" target="_blank" rel="noopener" class="cp-side-btn">쿠팡 메인 바로가기 →</a>
+    </div>
+    <div class="sidebar-box">
+      <div class="sidebar-title">📢 안내</div>
+      <p style="font-size:0.78rem;color:#999;line-height:1.8">이 블로그는 쿠팡 파트너스 활동의 일환으로, 구매 시 일정액의 수수료를 제공받습니다. 구매자에게 추가 비용은 없습니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="notice">
+  이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다. 구매자에게 추가 비용이 발생하지 않습니다.
+</div>
+
+<footer>
+  <strong>쿠팡픽</strong> &nbsp;·&nbsp; 쿠팡 파트너스 제휴 블로그 &nbsp;·&nbsp; © 2026
+</footer>
+
+<script>
+async function load(){
+  try{
+    const posts=await(await fetch('posts.json')).json();
+    document.getElementById('postCount').textContent=`총 ${posts.length}편`;
+    const el=document.getElementById('postList');
+    if(!posts.length){el.innerHTML='<div class="empty">아직 게시물이 없습니다.</div>';return}
+    el.innerHTML=posts.map(p=>`
+      <a href="${p.url}" class="post-card">
+        <div class="post-card-inner">
+          <div class="post-card-body">
+            <div class="post-card-meta">
+              <span class="post-card-date">${p.date||''}</span>
+              ${(p.tags||[]).map(t=>`<span class="post-card-tag">${t}</span>`).join('')}
+            </div>
+            <div class="post-card-title">${p.title}</div>
+            <div class="post-card-summary">${p.summary||''}</div>
+          </div>
+          ${p.image
+            ?`<img class="post-card-img" src="${p.image}" alt="${p.title}">`
+            :`<div class="post-card-img-ph">🛍️</div>`}
+        </div>
+      </a>`).join('');
+  }catch(e){
+    document.getElementById('postList').innerHTML='<div class="empty">게시물을 불러올 수 없습니다.</div>';
+  }
+}
+load();
+</script>
+</body>
+</html>
