@@ -3,103 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>쿠팡픽 - 진짜 써본 사람들의 리뷰</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <title>쿠팡픽 - 솔직한 상품 리뷰</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --red: #e53935; --red-dark: #b71c1c; --yellow: #ffd600;
-      --bg: #f7f7f7; --white: #ffffff; --gray: #9e9e9e; --dark: #1a1a1a;
-      --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Noto Sans KR',sans-serif; background:#f9f9f9; color:#111; }
+
+    /* HEADER */
+    header {
+      background:#fff;
+      border-bottom:1px solid #eee;
+      padding:0 20px;
+      position:sticky; top:0; z-index:99;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--dark); }
-    header { background: var(--white); border-bottom: 3px solid var(--red); padding: 0 24px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    .header-inner { max-width: 780px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--dark); letter-spacing: 2px; text-decoration: none; }
-    .logo span { color: var(--red); }
-    .header-sub { font-size: 0.78rem; color: var(--gray); }
-    .blog-top { background: var(--white); border-bottom: 1px solid #eee; padding: 40px 24px 32px; text-align: center; }
-    .blog-top-inner { max-width: 780px; margin: 0 auto; }
-    .blog-top h1 { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
-    .blog-top h1 span { color: var(--red); }
-    .blog-top-divider { width: 40px; height: 3px; background: var(--red); margin: 16px auto; border-radius: 2px; }
-    .blog-top p { font-size: 0.92rem; color: #666; line-height: 1.7; }
-    .main { max-width: 780px; margin: 0 auto; padding: 36px 24px 60px; }
-    .post-item { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: var(--card-shadow); margin-bottom: 24px; display: grid; grid-template-columns: 260px 1fr; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; }
-    .post-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
-    .post-item-img { width: 260px; height: 180px; object-fit: cover; display: block; background: #f0f0f0; }
-    .post-item-placeholder { width: 260px; height: 180px; background: linear-gradient(135deg, #fce4ec, #ffccbc); display: flex; align-items: center; justify-content: center; font-size: 3rem; flex-shrink: 0; }
-    .post-item-body { padding: 22px 24px; display: flex; flex-direction: column; justify-content: center; }
-    .post-item-date { font-size: 0.75rem; color: var(--gray); margin-bottom: 8px; }
-    .post-item-title { font-size: 1.05rem; font-weight: 700; line-height: 1.5; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .post-item-summary { font-size: 0.85rem; color: #666; line-height: 1.65; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 14px; }
-    .post-item-footer { display: flex; align-items: center; justify-content: space-between; }
-    .post-item-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag { font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: #fce4ec; color: var(--red); }
-    .read-more { font-size: 0.82rem; font-weight: 700; color: var(--red); white-space: nowrap; }
-    .loading { text-align: center; padding: 60px; color: var(--gray); font-size: 0.9rem; }
-    .disclaimer { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px 16px; font-size: 0.78rem; color: #795548; margin-top: 8px; text-align: center; }
-    footer { background: var(--dark); color: rgba(255,255,255,0.6); text-align: center; padding: 28px 24px; font-size: 0.8rem; }
-    footer strong { color: white; }
-    @media (max-width: 640px) {
-      .post-item { grid-template-columns: 1fr; }
-      .post-item-img, .post-item-placeholder { width: 100%; height: 200px; }
-      .blog-top h1 { font-size: 1.5rem; }
+    .hd { max-width:720px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:60px; }
+    .logo { font-size:1.5rem; font-weight:900; color:#e53935; text-decoration:none; letter-spacing:-0.5px; }
+    .logo-sub { font-size:0.72rem; color:#aaa; font-weight:400; margin-left:8px; }
+
+    /* BLOG INFO */
+    .blog-info {
+      max-width:720px; margin:0 auto;
+      padding:48px 20px 36px;
+      border-bottom:1px solid #eee;
+    }
+    .blog-info h1 {
+      font-size:1.75rem; font-weight:900;
+      line-height:1.4; margin-bottom:10px; color:#111;
+    }
+    .blog-info h1 em { color:#e53935; font-style:normal; }
+    .blog-info p { font-size:0.9rem; color:#777; line-height:1.8; }
+    .blog-info-bar {
+      display:flex; gap:24px; margin-top:20px;
+    }
+    .bib { font-size:0.78rem; color:#aaa; }
+    .bib strong { color:#e53935; font-size:1rem; display:block; margin-bottom:2px; }
+
+    /* POST LIST */
+    .posts { max-width:720px; margin:0 auto; padding:32px 20px 60px; }
+
+    .post-card {
+      display:grid; grid-template-columns:200px 1fr;
+      background:#fff; border-radius:12px;
+      overflow:hidden; margin-bottom:20px;
+      text-decoration:none; color:inherit;
+      border:1px solid #f0f0f0;
+      transition:box-shadow 0.2s, transform 0.2s;
+    }
+    .post-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.10); transform:translateY(-2px); }
+
+    .pc-img {
+      width:200px; height:160px;
+      object-fit:cover; display:block; background:#f5f5f5;
+    }
+    .pc-img-ph {
+      width:200px; height:160px; flex-shrink:0;
+      background:#fef2f2;
+      display:flex; align-items:center; justify-content:center; font-size:2.5rem;
+    }
+    .pc-body { padding:18px 20px; display:flex; flex-direction:column; justify-content:center; }
+    .pc-date { font-size:0.72rem; color:#bbb; margin-bottom:7px; }
+    .pc-title {
+      font-size:1rem; font-weight:700; line-height:1.5;
+      margin-bottom:8px; color:#111;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+    .pc-summary {
+      font-size:0.82rem; color:#888; line-height:1.65;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+      margin-bottom:12px;
+    }
+    .pc-bottom { display:flex; align-items:center; justify-content:space-between; }
+    .pc-tags { display:flex; gap:5px; flex-wrap:wrap; }
+    .pc-tag { font-size:0.68rem; font-weight:600; padding:2px 8px; border-radius:20px; background:#fef2f2; color:#e53935; }
+    .pc-more { font-size:0.78rem; font-weight:700; color:#e53935; }
+
+    .empty { text-align:center; padding:60px 20px; color:#ccc; font-size:0.9rem; }
+
+    .notice {
+      max-width:720px; margin:0 auto;
+      padding:0 20px 32px;
+      font-size:0.75rem; color:#bbb; text-align:center; line-height:1.8;
+    }
+
+    footer { background:#111; color:#666; text-align:center; padding:24px; font-size:0.78rem; }
+    footer strong { color:#fff; }
+
+    @media(max-width:560px){
+      .post-card { grid-template-columns:1fr; }
+      .pc-img,.pc-img-ph { width:100%; height:180px; }
+      .blog-info h1 { font-size:1.4rem; }
     }
   </style>
 </head>
 <body>
+
 <header>
-  <div class="header-inner">
-    <a href="/" class="logo">쿠팡<span>픽</span></a>
-    <span class="header-sub">쿠팡 파트너스 제휴 블로그</span>
+  <div class="hd">
+    <a href="/" class="logo">쿠팡픽<span class="logo-sub">솔직한 상품 리뷰</span></a>
   </div>
 </header>
-<div class="blog-top">
-  <div class="blog-top-inner">
-    <h1>진짜 써본 사람들의<br><span>쿠팡 상품 리뷰</span></h1>
-    <div class="blog-top-divider"></div>
-    <p>직접 구매하고 사용해본 제품들을 솔직하게 소개합니다.<br>좋은 것만, 검증된 것만 올립니다.</p>
+
+<div class="blog-info">
+  <h1>직접 써보고 고른<br><em>진짜 쿠팡 추천 상품</em></h1>
+  <p>광고 없이, 직접 사용해보고 솔직하게 작성한 리뷰만 올립니다.<br>쿠팡 최저가 링크와 함께 정보를 제공합니다.</p>
+  <div class="blog-info-bar">
+    <div class="bib"><strong id="postCount">0</strong>편의 리뷰</div>
+    <div class="bib"><strong>매일</strong>업데이트</div>
+    <div class="bib"><strong>100%</strong>솔직 후기</div>
   </div>
 </div>
-<div class="main">
-  <div id="postList"><div class="loading">리뷰를 불러오는 중...</div></div>
-  <div class="disclaimer">⚠️ 이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
+
+<div class="posts" id="postList">
+  <div class="empty">리뷰를 불러오는 중...</div>
 </div>
+
+<div class="notice">
+  이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.<br>
+  구매자에게 추가 비용이 발생하지 않습니다.
+</div>
+
 <footer>
-  <strong>쿠팡픽</strong> · 진짜 써본 사람들의 솔직한 리뷰<br>
-  <span style="margin-top:6px;display:block;">© 2026 쿠팡픽. 쿠팡 파트너스 제휴 블로그.</span>
+  <strong>쿠팡픽</strong> &nbsp;·&nbsp; 쿠팡 파트너스 제휴 블로그 &nbsp;·&nbsp; © 2026
 </footer>
+
 <script>
-async function loadPosts() {
+async function load() {
   try {
-    const res = await fetch('posts.json');
-    const posts = await res.json();
-    renderPosts(posts);
+    const posts = await (await fetch('posts.json')).json();
+    document.getElementById('postCount').textContent = posts.length;
+    const el = document.getElementById('postList');
+    if (!posts.length) { el.innerHTML = '<div class="empty">아직 게시물이 없습니다.</div>'; return; }
+    el.innerHTML = posts.map(p => `
+      <a href="${p.url}" class="post-card">
+        ${p.image
+          ? `<img class="pc-img" src="${p.image}" alt="${p.title}">`
+          : `<div class="pc-img-ph">🛍️</div>`}
+        <div class="pc-body">
+          <div class="pc-date">${p.date||''}</div>
+          <div class="pc-title">${p.title}</div>
+          <div class="pc-summary">${p.summary||''}</div>
+          <div class="pc-bottom">
+            <div class="pc-tags">${(p.tags||[]).map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
+            <span class="pc-more">리뷰 보기 →</span>
+          </div>
+        </div>
+      </a>`).join('');
   } catch(e) {
-    document.getElementById('postList').innerHTML = '<div class="loading">게시물이 없습니다.</div>';
+    document.getElementById('postList').innerHTML = '<div class="empty">게시물을 불러올 수 없습니다.</div>';
   }
 }
-function renderPosts(posts) {
-  const list = document.getElementById('postList');
-  if (!posts.length) { list.innerHTML = '<div class="loading">게시물이 없습니다.</div>'; return; }
-  list.innerHTML = posts.map(p => `
-    <a href="${p.url}" class="post-item">
-      ${p.image ? `<img class="post-item-img" src="${p.image}" alt="${p.title}">` : `<div class="post-item-placeholder">🛒</div>`}
-      <div class="post-item-body">
-        <div class="post-item-date">${p.date || ''}</div>
-        <div class="post-item-title">${p.title}</div>
-        <div class="post-item-summary">${p.summary || ''}</div>
-        <div class="post-item-footer">
-          <div class="post-item-tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-          <span class="read-more">리뷰 보기 →</span>
-        </div>
-      </div>
-    </a>
-  `).join('');
-}
-loadPosts();
+load();
 </script>
 </body>
 </html>
